@@ -14,35 +14,39 @@ require('dotenv').config()
 const app = express()
 const port = process.env.port || 4000
 
-app.use(express.static(path.resolve(__dirname , '../build')))
+app.use(express.static(path.join(__dirname, 'build')))
 
 app.use(cors())
 
 //alternative of body parser
 app.use(express.json())
 app.use(express.urlencoded({
-  extended: true
+    extended: true
 }));
 
 
-app.use('/user' , userRouter)
+app.use('/user', userRouter)
 
-app.use('/product' , productRouter)
+app.use('/product', productRouter)
 
-app.use('/payment' , paymentRouter)
+app.use('/payment', paymentRouter)
 
 app.use(router)
 
 
-app.get('*' , (req , res) =>{
-    res.sendFile(path.resolve(__dirname , '../build' , 'index.html'))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 
 // const uri = process.env.ATLAS_URI
 const uri = 'mongodb+srv://vikash129:vikash..@reactshop.8ozqt.mongodb.net/test?retryWrites=true&w=majority'
 
-mongoose.connect(uri, {  useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }, (err) => {
-    err && console.log('mongo not connected error'  ,err)
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }, (err) => {
+    err && console.log('mongo not connected error', err)
 })
 
 const connection = mongoose.connection

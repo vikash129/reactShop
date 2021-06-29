@@ -1,19 +1,19 @@
 import React from 'react';
 
-import { fade, makeStyles, AppBar, Toolbar, InputBase, Badge, IconButton, Button, ButtonGroup } from '@material-ui/core';
+import { fade, makeStyles, AppBar, Toolbar, InputBase, Badge, IconButton, Button, MenuItem, Menu } from '@material-ui/core';
 
 import { Link } from 'react-router-dom';
 
 //icons
-import { Search, AccountCircle, FavoriteBorderOutlined, Menu as MenuIcon } from '@material-ui/icons';
+import { Search, AccountCircle, FavoriteBorderOutlined, Menu as MenuIcon, Mail, Notifications, More as MoreIcon } from '@material-ui/icons';
 import logo from '../logo.png'
 
 
 const useStyles = makeStyles((theme) => ({
   logo: {
     maxWidth: 60,
-    maxHeight : 60,
-    borderRadius : 20 , 
+    maxHeight: 60,
+    borderRadius: 20,
     marginRight: theme.spacing(2),
 
   },
@@ -24,9 +24,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
-    color: 'secondary'
-
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
   },
   search: {
     position: 'relative',
@@ -82,14 +83,105 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     fontSize: '20px'
-  }
+  },
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
 
 }));
 
 
-export function Header({ loginUser, removeCookie  , cartList  }) {
+export function Header({ loginUser, removeCookie, cartList }) {
 
   const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+
+  const menuId = 'primary-search-account-menu';
+
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="secondary">
+            <Mail />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+
+      <MenuItem>
+        <IconButton aria-label="show 11 new notifications" color="inherit">
+          <Badge badgeContent={11} color="secondary">
+            <Notifications />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+
+    </Menu>
+  );
 
 
   const showCartList = (e) => {
@@ -100,7 +192,6 @@ export function Header({ loginUser, removeCookie  , cartList  }) {
     e.preventDefault()
 
     removeCookie('loginUser')
-
     window.location.href = '/'
 
   }
@@ -113,7 +204,7 @@ export function Header({ loginUser, removeCookie  , cartList  }) {
       <AppBar position="static">
 
         <Toolbar >
-        
+
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -123,7 +214,7 @@ export function Header({ loginUser, removeCookie  , cartList  }) {
             <MenuIcon />
           </IconButton>
 
-          <img src= {logo} alt ='Eshop' className = {classes.logo} />
+          <img src={logo} alt='Eshop' className={classes.logo} />
 
           <Button
             className={classes.title}
@@ -149,7 +240,9 @@ export function Header({ loginUser, removeCookie  , cartList  }) {
             />
           </div>
 
-          <ButtonGroup className='d-flex mx-2'>
+          <div className={classes.grow} />
+
+          <div className={classes.sectionDesktop}>
 
             <Button
               component={Link}
@@ -173,70 +266,90 @@ export function Header({ loginUser, removeCookie  , cartList  }) {
               Edit Products
             </Button>
 
-
-          </ButtonGroup>
-
-
-
-          <IconButton
-            aria-label="show 4 new mails"
-            color="inherit"
-            onClick={showCartList} >
-
-            <Badge badgeContent={cartList.length} color="secondary" >
-
-              <FavoriteBorderOutlined />
-            </Badge>
-          </IconButton>
-
-
-          <div
-            className={classes.profile}
-          >
             <IconButton
-              aria-label="account of  user"
-              aria-haspopup="true"
-              color='inherit'
+              aria-label="show 4 new mails"
+              color="inherit"
+              onClick={showCartList} >
 
-            >
-              <AccountCircle />
+              <Badge badgeContent={cartList.length} color="secondary" >
 
+                <FavoriteBorderOutlined />
+              </Badge>
             </IconButton>
 
-            {loginUser?.username}
+
+            <div className={classes.profile}  >
+              <IconButton
+                aria-label="account of  user"
+                aria-haspopup="true"
+                color='inherit'
+
+              >
+                <AccountCircle />
+
+              </IconButton>
+
+              {loginUser?.username}
+            </div>
+
           </div>
 
-
-          {loginUser ?
-
-            (<Button
-              className={classes.link}
-              color='secondary'
-              variant='contained'
-              onClick={(e) => { handleLogOut(e) }}
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
             >
-              LogOut
-            </Button>)
-            :
-            (
-              <Button
+              <MoreIcon />
+            </IconButton>
+
+
+
+            {loginUser ?
+
+              (<Button
                 className={classes.link}
-                color='primary'
-                component={Link}
+                color='secondary'
                 variant='contained'
-                to='/login'
+                onClick={(e) => { handleLogOut(e) }}
               >
-                LogIn
-              </Button>
-            )
+                LogOut
+              </Button>)
+              :
+              (
+                <Button
+                  className={classes.link}
+                  color='primary'
+                  component={Link}
+                  variant='contained'
+                  to='/login'
+                >
+                  LogIn
+                </Button>
+              )
+            }
+          </div>
 
-          }
-
-
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </div>
 
         </Toolbar>
-      </AppBar>
 
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
     </div>
   );
 }
+
