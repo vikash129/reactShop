@@ -20,7 +20,10 @@
   "proxy" : "http://localhost:4000",
   "scripts": {
     "start": "react-scripts start",
+<<<<<<< HEAD
 "server":"node backend/server.js",
+=======
+>>>>>>> 2cec4331de33e64b0abd3796de83f1f56353ab9d
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
