@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const router = require('express').Router()
-
+const path = require('path')
 
 const userRouter = require('./routes/users.router')
 const paymentRouter = require('./routes/payment.router')
@@ -14,7 +14,8 @@ require('dotenv').config()
 const app = express()
 const port = process.env.port || 4000
 
- 
+app.use(express.static(path.resolve(__dirname , '../build')))
+
 app.use(cors())
 
 //alternative of body parser
@@ -33,8 +34,8 @@ app.use('/payment' , paymentRouter)
 app.use(router)
 
 
-app.get('/' , (req , res) =>{
-    return res.send('<h1>hello from mongo </h2>')
+app.get('*' , (req , res) =>{
+    return res.sendFile(path.resolve(__dirname , '../build' , 'index.html'))
 })
 
 // const uri = process.env.ATLAS_URI
