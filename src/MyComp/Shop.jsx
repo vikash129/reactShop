@@ -10,12 +10,9 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: 3,
     },
-    paper: {
-        justifyContent: 'space-around'
-    },
     card: {
         padding: theme.spacing(1),
-        width: 270,
+        width: 275,
         margin: 10
     },
     bullet: {
@@ -38,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 )
 
 
-export const Shop = ({ logginUser  , handleCart}) => {
+export const Shop = ({ logginUser, handleCart }) => {
 
     const classes = useStyles()
 
@@ -54,76 +51,77 @@ export const Shop = ({ logginUser  , handleCart}) => {
     }, [])
 
 
-  
+
     return (
         <div className={classes.root}>
             <h1 className='text-center'>Ecomm Products</h1>
 
-            <Grid container spacing={3} className={classes.paper}>
+            <Grid container spacing={2} justify='center'  >
 
                 <CssBaseline />
 
                 {products.map((pro, ind) => {
                     return (
 
-                        <Card xs={3} sm={1} variant='outlined' key={ind} className={classes.card}>
+                        <Grid item  key={ind} xs={12} sm={6} md={3} lg={3} xl={2} justify='center'>
 
-                            <CardContent >
+                            <Card className={classes.card} variant='outlined'>
+                                <CardContent >
 
-                                <Typography variant="body2" >
-                                    {pro.date}
-                                </Typography>
+                                    <Typography variant="body2" >
+                                        {pro.date}
+                                    </Typography>
 
-                                <Typography variant="body2" >
-                                    <img src={`/uploads/images/${pro.image}`} className={classes.image} alt={pro.image} />
-                                </Typography>
+                                    <Typography variant="body2" >
+                                        <img src={`/uploads/images/${pro.image}`} className={classes.image} alt={pro.image} />
+                                    </Typography>
 
-                                <Typography className={classes.title}>
-                                    {pro._id} -- {pro.product}
-                                </Typography>
-
-
-                                <Typography color='textSecondary' className={classes.pos}>
-                                    {pro.description}
-                                </Typography>
-
-                                <Typography variant='h5' component='h2'>
-                                    {pro.price}/Rs Only.
-                                </Typography>
+                                    <Typography className={classes.title}>
+                                        {pro._id} -- {pro.product}
+                                    </Typography>
 
 
+                                    <Typography color='textSecondary' className={classes.pos}>
+                                        {pro.description}
+                                    </Typography>
 
-                                <CardActions>
-
-                                    <Button
-                                        size='small'
-                                        variant='contained'
-                                        disabled={!logginUser && true}
-                                        component={Link}
-                                        to={'/view/' + pro._id}
-                                    >
-                                        View
-
-                                    </Button>
-
-                                    <Button
-                                        size='small'
-                                        variant='contained'
-                                        color='primary'
-                                        onClick={(e) => { handleCart(e, pro) }}
-                                        disabled={!logginUser && true}
-                                    >
-                                        Add to FavList
-                                    </Button>
-
-                                </CardActions>
-
-                            </CardContent>
+                                    <Typography variant='h5' component='h2'>
+                                        {pro.price}/Rs Only.
+                                    </Typography>
 
 
 
-                        </Card>
+                                    <CardActions>
 
+                                        <Button
+                                            size='small'
+                                            variant='contained'
+                                            disabled={!logginUser && true}
+                                            component={Link}
+                                            to={'/view/' + pro._id}
+                                        >
+                                            View
+
+                                        </Button>
+
+                                        <Button
+                                            size='small'
+                                            variant='contained'
+                                            color='primary'
+                                            onClick={(e) => { handleCart(e, pro) }}
+                                            disabled={!logginUser && true}
+                                        >
+                                            Add to FavList
+                                        </Button>
+
+                                    </CardActions>
+
+                                </CardContent>
+
+
+
+                            </Card>
+                        </Grid>
                     )
                 })}
 
@@ -132,3 +130,9 @@ export const Shop = ({ logginUser  , handleCart}) => {
         </div>
     )
 }
+
+
+// value         |0px     600px    960px    1280px   1920px
+// key           |xs      sm       md       lg       xl
+// screen width  |--------|--------|--------|--------|-------->
+// range         |   xs   |   sm   |   md   |   lg   |   xl

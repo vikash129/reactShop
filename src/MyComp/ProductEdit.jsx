@@ -47,7 +47,6 @@ export const ProductEdit = () => {
         // { _id: "60c6", product: "hp laptop", description: "fasttter", price: 2000000, date: "1970-01-01", image: 'spider.jpg', type: 'electronic', isEditMode: false }
     ])
     const [previous, setPrevious] = React.useState({});
-    const [newProduct, setNewProduct] = React.useState({});
 
     const [isEditMode, setIsEditMode] = React.useState({ id: null });
 

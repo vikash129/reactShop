@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { fade, makeStyles, AppBar, Toolbar, InputBase, Badge, IconButton, Button, ButtonGroup } from '@material-ui/core';
 
@@ -6,9 +6,17 @@ import { Link } from 'react-router-dom';
 
 //icons
 import { Search, AccountCircle, FavoriteBorderOutlined, Menu as MenuIcon } from '@material-ui/icons';
-// import axios from 'axios';
+import logo from '../logo.png'
+
 
 const useStyles = makeStyles((theme) => ({
+  logo: {
+    maxWidth: 60,
+    maxHeight : 60,
+    borderRadius : 20 , 
+    marginRight: theme.spacing(2),
+
+  },
   grow: {
     flexGrow: 1,
   },
@@ -101,10 +109,11 @@ export function Header({ loginUser, removeCookie  , cartList  }) {
 
   return (
     <div className={classes.grow}>
+
       <AppBar position="static">
 
-        <Toolbar>
-
+        <Toolbar >
+        
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -113,6 +122,8 @@ export function Header({ loginUser, removeCookie  , cartList  }) {
           >
             <MenuIcon />
           </IconButton>
+
+          <img src= {logo} alt ='Eshop' className = {classes.logo} />
 
           <Button
             className={classes.title}

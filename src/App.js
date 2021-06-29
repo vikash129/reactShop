@@ -12,12 +12,12 @@ import { useCookies } from 'react-cookie'
 import { Header } from './MyComp/Header'
 import { Shop } from './MyComp/Shop';
 import { UserLogin } from './MyComp/UserLogin';
-// import { ProductCreate } from "./MyComp/ProductCreate";
-// import { ProductEdit } from "./MyComp/ProductEdit";
+import { ProductCreate } from "./MyComp/ProductCreate";
+import { ProductEdit } from "./MyComp/ProductEdit";
 import { ProductView } from './MyComp/ProductView';
 import { CheckOutForm } from './MyComp/CheckOutForm';
 import { UserSignIn } from './MyComp/UserSignIn';
-// import {Footer} from './MyComp/Footer'
+import {Footer} from './MyComp/Footer'
 
 
 const theme = createMuiTheme ({
@@ -74,9 +74,9 @@ const App = () => {
             <Shop logginUser={cookies.loginUser} handleCart={handleCart} />
           </Route>
 
-          {/* <Route path='/create' component={ProductCreate} />
+          <Route path='/create' component={ProductCreate} />
           <Route exact path='/edit' component={ProductEdit} />
- */}
+
 
           <Route
             path='/view/:id'
@@ -86,19 +86,19 @@ const App = () => {
           />
 
 
-          {/* <Route path='/checkOut/:totalPrice'
+          <Route path='/checkOut/:totalPrice'
             render={(props) =>
               (<CheckOutForm loginUser={cookies.loginUser}  {...props} />)
-            } /> */}
+            } />
 
 
-          {/* <Route path='/login'>
+          <Route path='/login'>
             <UserLogin setCookie={setCookie} />
           </Route>
 
           <Route path='/signin'>
-            <UserLogin setCookie={setCookie} />
-          </Route> */}
+            <UserSignIn setCookie={setCookie} />
+          </Route>
 
 
 
@@ -110,7 +110,7 @@ const App = () => {
 
 
 
-      {/* <Footer /> */}
+      <Footer />
 
       </ThemeProvider>
 
