@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Button, CssBaseline, TextField, Checkbox, Container, makeStyles,Input, FormControlLabel } from '@material-ui/core';
+import React, {  useState } from 'react'
+import { Button, CssBaseline, TextField, Checkbox, Container, makeStyles, Input, FormControlLabel } from '@material-ui/core';
 
-import { CreateNewFolderRounded, Create, AddAPhoto,CheckBox, Save } from '@material-ui/icons';
+import { CreateNewFolderRounded, Create, AddAPhoto, CheckBox, Save } from '@material-ui/icons';
 
 import axios from 'axios'
 
@@ -54,14 +54,21 @@ export const ProductCreate = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-       const headers = {"Content-Type" : 'application/json' , 'Access-Control-Allow-Origin' : '*'}
+        const headers = { "Content-Type": 'application/json', 'Access-Control-Allow-Origin': '*' }
 
-        axios.post('http://localhost:4000/product/add', formdata() , headers)
-        .then((response) => {
-            alert('product created')
-            console.log(response)
-        })
-            .catch(e => { alert('eeeeeeeee') })
+        axios.post('http://localhost:4000/product/add', formdata(), headers)
+            .then((response) => {
+                alert('product created')
+                setName('')
+                setDesc('')
+                setPrice(0)
+                setType('')
+                setImage([])
+                setChecked(false)
+            })
+            .catch(e => { alert('network dikkat') })
+
+       
 
     }
 
@@ -86,7 +93,7 @@ export const ProductCreate = () => {
                         label='Product Name'
                         autoFocus fullWidth
                         onChange={(e) => { setName(e.target.value) }}
-                         />
+                    />
 
                     <TextField
                         variant='outlined'
@@ -121,40 +128,40 @@ export const ProductCreate = () => {
 
                     {/* <AddAPhoto /> */}
                     <FormControlLabel
-                label = 'Submit your prod image'
+                        label='Submit your prod image'
 
-                    control = {
-                    <Input
-                    icon = {<AddAPhoto/>}
+                        control={
+                            <Input
+                                icon={<AddAPhoto />}
 
-                        type='file'
-                        className='mx-1'
-                        autoFocus required fullWidth
-                        onChange={(e) => { setImage(e.target.files[0]) }}
+                                type='file'
+                                className='mx-1'
+                                autoFocus required fullWidth
+                                onChange={(e) => { setImage(e.target.files[0]) }}
+                            />
+                        }
+
+
+
                     />
-                }
-                
-
-                
-                />
 
 
-<FormControlLabel 
+                    <FormControlLabel
 
-control = {
-<Checkbox
-icon = {<CheckBox/>}
-checkedIcon = {<Save/>}
-checked = {checked} 
-onChange = {(e)=>setChecked(e.target.checked)}
-inputProps = {{
-    'aria-label': 'secondary checkbox'
-}}
+                        control={
+                            <Checkbox
+                                icon={<CheckBox />}
+                                checkedIcon={<Save />}
+                                checked={checked}
+                                onChange={(e) => setChecked(e.target.checked)}
+                                inputProps={{
+                                    'aria-label': 'secondary checkbox'
+                                }}
 
-/>
-}
-label  = 'Sure to create the product ?'
-/>
+                            />
+                        }
+                        label='Sure to create the product ?'
+                    />
 
 
                     <Button

@@ -5,7 +5,7 @@ import { fade, makeStyles, AppBar, Toolbar, InputBase, Badge, IconButton, Button
 import { Link } from 'react-router-dom';
 
 //icons
-import { Search, AccountCircle, FavoriteBorderOutlined, Menu as MenuIcon, Mail, Notifications, More as MoreIcon } from '@material-ui/icons';
+import { Search, AccountCircle, FavoriteBorderOutlined, Menu as MenuIcon, Mail, Notifications, More as MoreIcon, Create, UpdateOutlined } from '@material-ui/icons';
 import logo from '../logo.png'
 
 
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    color: 'green'
   },
   search: {
     position: 'relative',
@@ -73,8 +74,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   link: {
-    textDecoration: 'inherit',
-    color: 'danger',
+    textDecoration: 'none',
+    color: 'inherit',
     margin: theme.spacing(2)
 
   },
@@ -121,6 +122,17 @@ export function Header({ loginUser, removeCookie, cartList }) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const showCartList = (e) => {
+    console.log(cartList)
+  }
+
+  function handleLogOut(e) {
+    e.preventDefault()
+
+    removeCookie('loginUser')
+    window.location.href = '/'
+
+  }
 
   const menuId = 'primary-search-account-menu';
 
@@ -149,7 +161,81 @@ export function Header({ loginUser, removeCookie, cartList }) {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      aria-controls={mobileMenuId}
+      aria-haspopup="true"
+      onClick={handleMobileMenuOpen}
     >
+
+      <MenuItem >
+
+        <IconButton
+          aria-label="create products"
+          component={Link}  to='/create'  >
+
+          <Create />   <p> Create-Products</p>
+
+        </IconButton>
+      </MenuItem>
+
+
+
+      <MenuItem  >
+        <IconButton
+          aria-label="edit products"
+          component={Link}  to='/edit'  >
+
+          <UpdateOutlined />   <p> Edit Products</p>
+        </IconButton>
+
+      </MenuItem>
+
+
+      {/* login logout button */}
+      <MenuItem>
+        {loginUser ?
+
+          (<Button
+            className={classes.link}
+            color='secondary'
+            variant='contained'
+            onClick={(e) => { handleLogOut(e) }}
+          >
+            <p> LogOut</p>
+          </Button>)
+          :
+          (
+            <Button
+              className={classes.link}
+              color='primary'
+              component={Link}
+              variant='contained'
+              to='/login'
+            >
+              <p>  LogIn</p>
+
+            </Button>
+          )
+        }
+      </MenuItem>
+
+
+
+      <MenuItem>
+        <IconButton
+          aria-label="show 4 new mails"
+          color="inherit"
+          onClick={showCartList} >
+
+          <Badge badgeContent={cartList.length} color="secondary" >
+
+            <FavoriteBorderOutlined />
+          </Badge>
+        </IconButton>
+        <p>FavList</p>
+      </MenuItem>
+
+
+
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
@@ -168,33 +254,25 @@ export function Header({ loginUser, removeCookie, cartList }) {
         <p>Notifications</p>
       </MenuItem>
 
-      <MenuItem onClick={handleProfileMenuOpen}>
+
+      <MenuItem onClick={handleProfileMenuOpen} className={classes.profile} >
         <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
+          aria-label="account of  user"
           aria-haspopup="true"
-          color="inherit"
+          color='inherit'
+
         >
           <AccountCircle />
+
         </IconButton>
+
+        {loginUser?.username}
         <p>Profile</p>
       </MenuItem>
 
     </Menu>
   );
 
-
-  const showCartList = (e) => {
-    console.log(cartList)
-  }
-
-  function handleLogOut(e) {
-    e.preventDefault()
-
-    removeCookie('loginUser')
-    window.location.href = '/'
-
-  }
 
 
 
@@ -208,23 +286,31 @@ export function Header({ loginUser, removeCookie, cartList }) {
           <IconButton
             edge="start"
             className={classes.menuButton}
-            color="inherit"
             aria-label="Menu"
+            aria-controls={mobileMenuId}
+            aria-haspopup="true"
+            // onClick={handleMobileMenuOpen}
+            aria-controls={mobileMenuId}
+            aria-haspopup="true"
+            color="inherit"
+            open={isMobileMenuOpen}
+            onClose={handleMobileMenuClose}
           >
             <MenuIcon />
           </IconButton>
 
-          <img src={logo} alt='Eshop' className={classes.logo} />
 
-          <Button
+          <IconButton
             className={classes.title}
-            variant='contained'
+            variant='outlined'
             component={Link}
             to='/'
           >
 
+            <img src={logo} alt='Eshop' className={classes.logo} />
+
             React EcommShop
-          </Button>
+          </IconButton>
 
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -251,7 +337,7 @@ export function Header({ loginUser, removeCookie, cartList }) {
               to='/create'
 
             >
-              Create-Products
+             <Create/> Create-Products
             </Button>
 
 
@@ -263,7 +349,7 @@ export function Header({ loginUser, removeCookie, cartList }) {
 
             >
 
-              Edit Products
+           <UpdateOutlined/>   Edit Products
             </Button>
 
             <IconButton
@@ -292,21 +378,6 @@ export function Header({ loginUser, removeCookie, cartList }) {
               {loginUser?.username}
             </div>
 
-          </div>
-
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-
-
-
             {loginUser ?
 
               (<Button
@@ -330,7 +401,10 @@ export function Header({ loginUser, removeCookie, cartList }) {
                 </Button>
               )
             }
+
           </div>
+
+
 
           <div className={classes.sectionMobile}>
             <IconButton

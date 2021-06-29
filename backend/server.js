@@ -14,7 +14,7 @@ require('dotenv').config()
 const app = express()
 const port = process.env.port || 4000
 
-app.use(express.static(path.join(__dirname, 'build')))
+
 
 app.use(cors())
 
@@ -35,12 +35,18 @@ app.use(router)
 
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+    res.send('hello friend chai peelo')
 })
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'))
-})
+
+if(process.env.NODE_ENV === 'production'){
+
+    app.use(express.static(path.join(__dirname, '../build')))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../build', 'index.html'))
+    })
+}
 
 // const uri = process.env.ATLAS_URI
 const uri = 'mongodb+srv://vikash129:vikash..@reactshop.8ozqt.mongodb.net/test?retryWrites=true&w=majority'

@@ -171,6 +171,7 @@ export const ProductEdit = () => {
                 axios.post('http://localhost:4000/product/update/' + id, product)
                     .then((res) => { alert('record added'); console.log(res.data) })
                     .catch((e) => { console.log('errrr', e) })
+                    return
             }
             }
         )

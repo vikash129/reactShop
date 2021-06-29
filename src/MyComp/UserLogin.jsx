@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Avatar, FormControlLabel, Button, CssBaseline, TextField, Checkbox, Typography, Container, makeStyles, Grid, Box, Link as MiLink } from '@material-ui/core';
+import {  FormControlLabel, Button, CssBaseline, TextField, Checkbox,  Container, makeStyles, Grid, Box, Link as MiLink } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 
-import { Copyright, LockOutlined, CheckCircle, CropSquareSharp } from '@material-ui/icons';
+import { Copyright,  CheckCircle, CropSquareSharp } from '@material-ui/icons';
 
 import axios from 'axios'
 

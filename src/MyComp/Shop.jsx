@@ -63,7 +63,7 @@ export const Shop = ({ logginUser, handleCart }) => {
                 {products.map((pro, ind) => {
                     return (
 
-                        <Grid item  key={ind} xs={12} sm={6} md={3} lg={3} xl={2} justify='center'>
+                        <Grid item  key={ind} xs={12} sm={6} md={3} lg={3} xl={2} >
 
                             <Card className={classes.card} variant='outlined'>
                                 <CardContent >
