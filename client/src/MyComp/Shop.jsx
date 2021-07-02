@@ -46,7 +46,7 @@ export const Shop = ({ logginUser, handleCart }) => {
 
 
     useEffect(() => {
-        axios.get('http://localhost:4000/product')
+        axios.get('https://react-shopworld.herokuapp.com//product')
             .then((result) => setProducts(result.data))
     }, [])
 

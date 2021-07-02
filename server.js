@@ -37,16 +37,10 @@ app.use(router)
 app.get('*', (req, res) => {
     res.send('hello friend chai peelo')
 })
+app.get('/', (req, res) => { res.send('Hello from Express!')})
 
 console.log(process.env.NODE_ENV )
-if(process.env.NODE_ENV === 'production'){
 
-    app.use(express.static(path.join(__dirname, 'cd client/build')))
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'cd client/build', 'index.html'))
-    })
-}
 
 // const uri = process.env.ATLAS_URI
 const uri = 'mongodb+srv://vikash129:vikash..@reactshop.8ozqt.mongodb.net/test?retryWrites=true&w=majority'
