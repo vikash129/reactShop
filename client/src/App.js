@@ -35,8 +35,7 @@ const theme = createMuiTheme ({
 
 const App = () => {
 
-  const [setCookie, removeCookie] = useCookies(['loginUser'])
-  const cookies = { loginUser: { username: 'vikash' } }
+  const [cookies,setCookie, removeCookie] = useCookies(['loginUser'])
 
   const [cartList, setCartList] = useState(
     localStorage.getItem('cartList')
@@ -63,7 +62,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme = {theme} >
-<h1>chl gya bc</h1>
+
 
       <Router>
         <Header loginUser={cookies.loginUser} removeCookie={removeCookie} cartList={cartList} />
