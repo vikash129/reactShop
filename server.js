@@ -55,6 +55,6 @@ connection.once('open', () => {
     console.log('mongo conneted')
 })
 
-app.listen(port, () => {
-    console.log('listening at port ', port)
+app.listen(process.env.port || 4000, () => {
+    console.log('listening at port ', process.env.port || 4000)
 })
