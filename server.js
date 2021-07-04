@@ -12,8 +12,8 @@ const productRouter = require('./routes/product.router')
 require('dotenv').config()
 
 const app = express()
-const port = process.env.port || 4000
-
+const port = process.env.PORT || 4000
+const host = '0.0.0.0';
 
 
 app.use(cors())
@@ -54,7 +54,7 @@ const connection = mongoose.connection
 connection.once('open', () => {
     console.log('mongo conneted')
 })
-
-app.listen(process.env.port || 4000, () => {
-    console.log('listening at port ', process.env.port || 4000)
+console.log('p- ',port)
+app.listen(port, host,() => {
+    console.log('listening at port ', port)
 })
