@@ -37,7 +37,7 @@ app.use(router)
 app.get('*', (req, res) => {
     res.send('hello friend chai peelo')
 })
-app.get('/', (req, res) => { res.send('Hello from Express!')})
+
 
 console.log(process.env.NODE_ENV )
 
