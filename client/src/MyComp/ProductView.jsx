@@ -25,7 +25,7 @@ export const ProductView = (props) => {
     const [totalPrice, setTotalPrice] = useState(0)
 
     useEffect(() => {
-        axios.get('http://localhost:4000/product/' + props.id).then((res) => setProduct(res.data))
+        axios.get('https://react-shopworld.herokuapp.com/product/' + props.id).then((res) => setProduct(res.data))
         setTotalPrice(product.price * qty)
     }, [qty])
 

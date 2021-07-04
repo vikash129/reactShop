@@ -56,7 +56,7 @@ export const ProductCreate = () => {
 
         const headers = { "Content-Type": 'application/json', 'Access-Control-Allow-Origin': '*' }
 
-        axios.post('http://localhost:4000/product/add', formdata(), headers)
+        axios.post('https://react-shopworld.herokuapp.com/product/add', formdata(), headers)
             .then((response) => {
                 alert('product created')
                 setName('')

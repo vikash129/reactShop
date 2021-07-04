@@ -54,7 +54,7 @@ export const ProductEdit = () => {
 
     //fetch data
     useEffect(() => {
-        axios.get('http://localhost:4000/product').then((res) => setProducts(res.data))
+        axios.get('https://react-shopworld.herokuapp.com/product').then((res) => setProducts(res.data))
 
     }, [])
 
@@ -150,7 +150,7 @@ export const ProductEdit = () => {
     const handleDelete = (e, id) => {
         e.preventDefault()
 
-        axios.delete('http://localhost:4000/product/' + id)
+        axios.delete('https://react-shopworld.herokuapp.com/product/' + id)
             .then(res =>
                 axios.get('http://localhost:4000/product')
                     .then((res) => setProducts(res.data))
@@ -168,7 +168,7 @@ export const ProductEdit = () => {
             if(product._id === id){
                 console.log(id, product)
 
-                axios.post('http://localhost:4000/product/update/' + id, product)
+                axios.post('https://react-shopworld.herokuapp.com/product/update/' + id, product)
                     .then((res) => { alert('record added'); console.log(res.data) })
                     .catch((e) => { console.log('errrr', e) })
                     return
