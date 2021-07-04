@@ -63,7 +63,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme = {theme} >
-
+<h1>chl gya bc</h1>
 
       <Router>
         <Header loginUser={cookies.loginUser} removeCookie={removeCookie} cartList={cartList} />
