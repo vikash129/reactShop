@@ -152,7 +152,7 @@ export const ProductEdit = () => {
 
         axios.delete('https://react-shopworld.herokuapp.com/product/' + id)
             .then(res =>
-                axios.get('http://localhost:4000/product')
+                axios.get('https://react-shopworld.herokuapp.com/product')
                     .then((res) => setProducts(res.data))
                     .catch((err) => console.log(err))
             )
@@ -166,10 +166,9 @@ export const ProductEdit = () => {
 
         products.map(product => {
             if(product._id === id){
-                console.log(id, product)
 
                 axios.post('https://react-shopworld.herokuapp.com/product/update/' + id, product)
-                    .then((res) => { alert('record added'); console.log(res.data) })
+                    .then((res) => { alert('record added') })
                     .catch((e) => { console.log('errrr', e) })
                     return
             }

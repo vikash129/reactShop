@@ -1,6 +1,8 @@
 import React from 'react';
+import { ThemeProvider, createMuiTheme, Typography } from '@material-ui/core'
+import { blue, red } from '@material-ui/core/colors'
 
-import { fade, makeStyles, AppBar, Toolbar, InputBase, Badge, IconButton, Button, MenuItem, Menu } from '@material-ui/core';
+import { fade, makeStyles, AppBar, Toolbar, InputBase, Badge, IconButton, Button, MenuItem, Menu, Popover } from '@material-ui/core';
 
 import { Link } from 'react-router-dom';
 
@@ -8,6 +10,17 @@ import { Link } from 'react-router-dom';
 import { Search, AccountCircle, FavoriteBorderOutlined, Menu as MenuIcon, Mail, Notifications, More as MoreIcon, Create, UpdateOutlined } from '@material-ui/icons';
 import logo from '../logo.png'
 
+
+const theme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: red[500]
+    },
+    primary: {
+      main: blue[100]
+    }
+  }
+})
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -19,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
   },
   grow: {
     flexGrow: 1,
+  },
+  header: {
+    backgroundColor: blue[200],
+    color: 'black',
+    width: '100vw',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -76,7 +94,8 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: 'none',
     color: 'inherit',
-    margin: theme.spacing(2)
+    margin: theme.spacing(2),
+    paddingInline : theme.spacing(2)
 
   },
   profile: {
@@ -84,6 +103,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     fontSize: '20px'
+  },
+  typography: {
+    padding: theme.spacing(2)
   },
   sectionMobile: {
     display: 'flex',
@@ -95,15 +117,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
 export function Header({ loginUser, removeCookie, cartList }) {
 
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [cartAnchorEl, setCartAnchorEl] = React.useState(null);
+
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const cartOpen = Boolean(cartAnchorEl);
+  const cartId = cartOpen ? 'simple-popover' : undefined;
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -122,8 +150,10 @@ export function Header({ loginUser, removeCookie, cartList }) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+
   const showCartList = (e) => {
-    console.log(cartList)
+    e.preventDefault()
+    setCartAnchorEl(e.currentTarget)
   }
 
   function handleLogOut(e) {
@@ -170,7 +200,8 @@ export function Header({ loginUser, removeCookie, cartList }) {
 
         <IconButton
           aria-label="create products"
-          component={Link}  to='/create'  >
+          component={Link}
+          to='/create'  >
 
           <Create />   <p> Create-Products</p>
 
@@ -182,40 +213,12 @@ export function Header({ loginUser, removeCookie, cartList }) {
       <MenuItem  >
         <IconButton
           aria-label="edit products"
-          component={Link}  to='/edit'  >
+          component={Link}
+          to='/edit'  >
 
           <UpdateOutlined />   <p> Edit Products</p>
         </IconButton>
 
-      </MenuItem>
-
-
-      {/* login logout button */}
-      <MenuItem>
-        {loginUser ?
-
-          (<Button
-            className={classes.link}
-            color='secondary'
-            variant='contained'
-            onClick={(e) => { handleLogOut(e) }}
-          >
-            <p> LogOut</p>
-          </Button>)
-          :
-          (
-            <Button
-              className={classes.link}
-              color='primary'
-              component={Link}
-              variant='contained'
-              to='/login'
-            >
-              <p>  LogIn</p>
-
-            </Button>
-          )
-        }
       </MenuItem>
 
 
@@ -254,8 +257,10 @@ export function Header({ loginUser, removeCookie, cartList }) {
         <p>Notifications</p>
       </MenuItem>
 
-
+      {/* profile */}
       <MenuItem onClick={handleProfileMenuOpen} className={classes.profile} >
+        <p>Profile</p>
+
         <IconButton
           aria-label="account of  user"
           aria-haspopup="true"
@@ -263,11 +268,38 @@ export function Header({ loginUser, removeCookie, cartList }) {
 
         >
           <AccountCircle />
-
         </IconButton>
+        <p> {loginUser?.username}</p>
+      </MenuItem>
 
-        {loginUser?.username}
-        <p>Profile</p>
+
+      {/* login logout button */}
+      <MenuItem>
+        {loginUser ?
+
+          (<Button
+            className={classes.link}
+            size='large'
+            color='secondary'
+            variant='contained'
+            onClick={(e) => { handleLogOut(e) }}
+          >
+            <p> LogOut</p>
+          </Button>)
+          :
+          (
+            <Button
+              className={classes.link}
+              color='primary'
+              component={Link}
+              variant='contained'
+              to='/login'
+            >
+              <p>  LogIn</p>
+
+            </Button>
+          )
+        }
       </MenuItem>
 
     </Menu>
@@ -277,9 +309,9 @@ export function Header({ loginUser, removeCookie, cartList }) {
 
 
   return (
-    <div className={classes.grow}>
+    <div className={classes.grow} >
 
-      <AppBar position="static">
+      <AppBar position="static" className={classes.header}>
 
         <Toolbar >
 
@@ -289,7 +321,6 @@ export function Header({ loginUser, removeCookie, cartList }) {
             aria-label="Menu"
             aria-controls={mobileMenuId}
             aria-haspopup="true"
-            // onClick={handleMobileMenuOpen}
             aria-controls={mobileMenuId}
             aria-haspopup="true"
             color="inherit"
@@ -337,7 +368,7 @@ export function Header({ loginUser, removeCookie, cartList }) {
               to='/create'
 
             >
-             <Create/> Create-Products
+              <Create /> Create-Products
             </Button>
 
 
@@ -349,13 +380,16 @@ export function Header({ loginUser, removeCookie, cartList }) {
 
             >
 
-           <UpdateOutlined/>   Edit Products
+              <UpdateOutlined />   Edit Products
             </Button>
 
+            {/* fav item list */}
             <IconButton
+              aria-describedby={cartId}
               aria-label="show 4 new mails"
               color="inherit"
-              onClick={showCartList} >
+              onClick={(e) => setCartAnchorEl(e.currentTarget)}
+            >
 
               <Badge badgeContent={cartList.length} color="secondary" >
 
@@ -363,44 +397,76 @@ export function Header({ loginUser, removeCookie, cartList }) {
               </Badge>
             </IconButton>
 
+            <Popover
+              id={cartId}
+              open={cartOpen}
+              anchorEl={cartAnchorEl}
+              onClose={() => { setCartAnchorEl(null) }}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
+            >
 
-            <div className={classes.profile}  >
-              <IconButton
-                aria-label="account of  user"
-                aria-haspopup="true"
-                color='inherit'
+              <Typography className={classes.typography}>
 
-              >
+                {loginUser 
+                ? cartList.map((product, index) => 
+                (  <div key = {index} className = 'm-2'>
+                   {index + 1} )   { product.product } - { product.price } Rs
+                 <hr/> 
+                 </div> )) 
+
+                : <> <b>Login to View Fav list </b>  </>}
+
+              </Typography>
+            </Popover>
+
+            <IconButton
+              aria-label="account of  user"
+              aria-haspopup="true"
+              color='inherit'
+            >
+              <div className={classes.profile}>
                 <AccountCircle />
+                {loginUser?.username}
+              </div>
 
-              </IconButton>
+            </IconButton>
 
-              {loginUser?.username}
-            </div>
 
-            {loginUser ?
+            {/* login logout */}
+            <ThemeProvider theme={theme} >
 
-              (<Button
-                className={classes.link}
-                color='secondary'
-                variant='contained'
-                onClick={(e) => { handleLogOut(e) }}
-              >
-                LogOut
-              </Button>)
-              :
-              (
-                <Button
+              {loginUser ?
+
+                (<Button
                   className={classes.link}
-                  color='primary'
-                  component={Link}
+                  color='secondary'
                   variant='contained'
-                  to='/login'
+                  onClick={(e) => { handleLogOut(e) }}
                 >
-                  LogIn
-                </Button>
-              )
-            }
+                  LogOut
+                </Button>)
+                :
+                (
+                  <Button
+                    className={classes.link}
+                    color='primary'
+                    component={Link}
+                    variant='contained'
+                    to='/login'
+                  >
+                    LogIn
+                  </Button>
+                )
+              }
+            </ThemeProvider>
+
 
           </div>
 

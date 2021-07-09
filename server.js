@@ -2,7 +2,6 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const router = require('express').Router()
-const path = require('path')
 
 const userRouter = require('./routes/users.router')
 const paymentRouter = require('./routes/payment.router')
@@ -12,8 +11,11 @@ const productRouter = require('./routes/product.router')
 require('dotenv').config()
 
 const app = express()
+
 const port = process.env.PORT || 4000
 const host = '0.0.0.0';
+
+const port = process.env.port || 4000
 
 
 app.use(cors())
@@ -35,11 +37,20 @@ app.use(router)
 
 
 app.get('*', (req, res) => {
-    res.send('hello friend chai peelo')
+
+    res.send('you are in server of reactShop world.. bhaad mein jao')
 })
 
 
-console.log(process.env.NODE_ENV )
+
+// if(process.env.NODE_ENV === 'production'){
+
+//     app.use(express.static(path.join(__dirname, 'cd client/build')))
+
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, 'cd client/build', 'index.html'))
+//     })
+// }
 
 
 // const uri = process.env.ATLAS_URI
@@ -54,7 +65,8 @@ const connection = mongoose.connection
 connection.once('open', () => {
     console.log('mongo conneted')
 })
-console.log('p- ',port)
+
 app.listen(port, host,() => {
     console.log('listening at port ', port)
 })
+

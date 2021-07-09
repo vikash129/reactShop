@@ -1,6 +1,4 @@
 //importin styling
-import {  ThemeProvider , createMuiTheme} from '@material-ui/core'
-import {  blue, red} from '@material-ui/core/colors'
 import 'fontsource-roboto'
 
 //react necc modules
@@ -20,22 +18,18 @@ import { UserSignIn } from './MyComp/UserSignIn';
 import {Footer} from './MyComp/Footer'
 
 
-const theme = createMuiTheme ({
-  palette : {
-      secondary : {
-          main : red[500]
-      } ,
-       primary : {
-         main : blue[200]
-       }
-  }
-})
+
 
 !localStorage.getItem('cartList') && localStorage.setItem('cartList', JSON.stringify([]))
 
 const App = () => {
 
   const [cookies,setCookie, removeCookie] = useCookies(['loginUser'])
+
+
+  // const data =  {username : 'vikash' , email : 'vikashvermacom92@gmail.com'}
+   const userData = cookies.loginUser ? cookies.loginUser : null
+  
 
   const [cartList, setCartList] = useState(
     localStorage.getItem('cartList')
@@ -61,16 +55,15 @@ const App = () => {
 
 
   return (
-    <ThemeProvider theme = {theme} >
 
-
+<>
       <Router>
-        <Header loginUser={cookies.loginUser} removeCookie={removeCookie} cartList={cartList} />
+        <Header loginUser={userData } removeCookie={removeCookie} cartList={cartList} />
 
         <Switch>
 
           <Route exact path='/'>
-            <Shop logginUser={cookies.loginUser} handleCart={handleCart} />
+            <Shop logginUser={userData} handleCart={handleCart} />
           </Route>
 
           <Route path='/create' component={ProductCreate} />
@@ -87,7 +80,7 @@ const App = () => {
 
           <Route path='/checkOut/:totalPrice'
             render={(props) =>
-              (<CheckOutForm loginUser={cookies.loginUser}  {...props} />)
+              (<CheckOutForm loginUser={userData}  {...props} />)
             } />
 
 
@@ -111,8 +104,7 @@ const App = () => {
 
       <Footer />
 
-      </ThemeProvider>
-
+</>
   );
 }
 

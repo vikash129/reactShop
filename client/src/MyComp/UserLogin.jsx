@@ -69,14 +69,6 @@ export const UserLogin = ({setCookie}) => {
             <div className={classes.paper}>
 
 
-
-                {/* <Typography component='h1' variant='h5' className='text-center mt-2'>
-                    <Avatar className='m-auto bg-dark'>
-                        <LockOutlined className={classes.avatar} />
-                    </Avatar>
-                    Log In
-                </Typography> */}
-
                 <form className='w-100 mt-4' noValidate onSubmit={handleLogin}>
 
                     <TextField variant='outlined' margin='normal' id='name' label='Enter Your username' autoComplete='name' autoFocus required fullWidth onChange={(e) => { setName(e.target.value) }} />
