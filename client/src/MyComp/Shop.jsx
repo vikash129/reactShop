@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 )
 
 
-export const Shop = ({ logginUser, handleCart }) => {
+export const Shop = ({ logginUser, handleCart , search}) => {
 
     const classes = useStyles()
 
@@ -50,6 +50,20 @@ export const Shop = ({ logginUser, handleCart }) => {
             .then((result) => setProducts(result.data))
     }, [])
 
+    useEffect(() => {
+        console.log(search)
+
+        const searchData = []
+        products.map( (product) => {
+
+            if(search === product.product || search in product.description ){
+                searchData.push(product)
+            }
+        })
+searchData &&  setProducts(searchData) 
+       
+    }, [search])
+
 
 
     return (
@@ -59,6 +73,8 @@ export const Shop = ({ logginUser, handleCart }) => {
             <Grid container spacing={2} justify='center'  >
 
                 <CssBaseline />
+
+                {search && <h3> Search Results are : </h3>}
 
                 {products.map((pro, ind) => {
                     return (

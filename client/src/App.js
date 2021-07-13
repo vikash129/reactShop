@@ -15,7 +15,7 @@ import { ProductEdit } from "./MyComp/ProductEdit";
 import { ProductView } from './MyComp/ProductView';
 import { CheckOutForm } from './MyComp/CheckOutForm';
 import { UserSignIn } from './MyComp/UserSignIn';
-import {Footer} from './MyComp/Footer'
+import { Footer } from './MyComp/Footer'
 
 
 
@@ -24,12 +24,14 @@ import {Footer} from './MyComp/Footer'
 
 const App = () => {
 
-  const [cookies,setCookie, removeCookie] = useCookies(['loginUser'])
+  const [cookies, setCookie, removeCookie] = useCookies(['loginUser'])
+  const [search, setSearch] = React.useState(null);
+
 
 
   // const data =  {username : 'vikash' , email : 'vikashvermacom92@gmail.com'}
-   const userData = cookies.loginUser ? cookies.loginUser : null
-  
+  const userData = cookies.loginUser ? cookies.loginUser : null
+
 
   const [cartList, setCartList] = useState(
     localStorage.getItem('cartList')
@@ -49,6 +51,7 @@ const App = () => {
 
     e.preventDefault()
 
+    product in cartList ? alert('product already in list') : alert('added in list')
     cartList.push(product)
     setCartList([...cartList])
   }
@@ -56,14 +59,14 @@ const App = () => {
 
   return (
 
-<>
+    <>
       <Router>
-        <Header loginUser={userData } removeCookie={removeCookie} cartList={cartList} />
+        <Header loginUser={userData} removeCookie={removeCookie} cartList={cartList} setSearch={setSearch} search={search} />
 
         <Switch>
 
           <Route exact path='/'>
-            <Shop logginUser={userData} handleCart={handleCart} />
+            <Shop logginUser={userData} handleCart={handleCart} search={search} />
           </Route>
 
           <Route path='/create' component={ProductCreate} />
@@ -104,7 +107,7 @@ const App = () => {
 
       <Footer />
 
-</>
+    </>
   );
 }
 

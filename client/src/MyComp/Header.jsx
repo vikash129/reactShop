@@ -7,7 +7,7 @@ import { fade, makeStyles, AppBar, Toolbar, InputBase, Badge, IconButton, Button
 import { Link } from 'react-router-dom';
 
 //icons
-import { Search, AccountCircle, FavoriteBorderOutlined, Menu as MenuIcon, Mail, Notifications, More as MoreIcon, Create, UpdateOutlined } from '@material-ui/icons';
+import { Search, AccountCircle, FavoriteBorderOutlined, Menu as MenuIcon, Mail, Notifications, More as MoreIcon, Create, UpdateOutlined, CancelOutlined } from '@material-ui/icons';
 import logo from '../logo.png'
 
 
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     color: 'inherit',
     margin: theme.spacing(2),
-    paddingInline : theme.spacing(2)
+    paddingInline: theme.spacing(2)
 
   },
   profile: {
@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export function Header({ loginUser, removeCookie, cartList }) {
+export function Header({ loginUser, removeCookie, cartList, setSearch ,search}) {
 
   const classes = useStyles();
 
@@ -161,6 +161,12 @@ export function Header({ loginUser, removeCookie, cartList }) {
 
     removeCookie('loginUser')
     window.location.href = '/'
+
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    setSearch(e.target.value)
 
   }
 
@@ -344,9 +350,11 @@ export function Header({ loginUser, removeCookie, cartList }) {
           </IconButton>
 
           <div className={classes.search}>
+
             <div className={classes.searchIcon}>
               <Search />
             </div>
+
             <InputBase
               placeholder="Search…"
               classes={{
@@ -354,7 +362,14 @@ export function Header({ loginUser, removeCookie, cartList }) {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleSearch}
+              value = {search}
             />
+
+<IconButton onClick = {() => setSearch(null)}>
+            <CancelOutlined />
+          </IconButton>
+
           </div>
 
           <div className={classes.grow} />
@@ -414,14 +429,14 @@ export function Header({ loginUser, removeCookie, cartList }) {
 
               <Typography className={classes.typography}>
 
-                {loginUser 
-                ? cartList.map((product, index) => 
-                (  <div key = {index} className = 'm-2'>
-                   {index + 1} )   { product.product } - { product.price } Rs
-                 <hr/> 
-                 </div> )) 
+                {loginUser
+                  ? cartList.map((product, index) =>
+                  (<div key={index} className='m-2'>
+                    {index + 1} )   {product.product} - {product.price} Rs
+                    <hr />
+                  </div>))
 
-                : <> <b>Login to View Fav list </b>  </>}
+                  : <> <b>Login to View Fav list </b>  </>}
 
               </Typography>
             </Popover>
