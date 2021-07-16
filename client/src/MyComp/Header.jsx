@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider, createMuiTheme, Typography } from '@material-ui/core'
-import { blue, red } from '@material-ui/core/colors'
+import { blue, red , green} from '@material-ui/core/colors'
 
 import { fade, makeStyles, AppBar, Toolbar, InputBase, Badge, IconButton, Button, MenuItem, Menu, Popover } from '@material-ui/core';
 
@@ -49,7 +49,10 @@ const useStyles = makeStyles((theme) => ({
     color: 'green'
   },
   search: {
+    display :'flex',
+    justifyContent : 'space-around',
     position: 'relative',
+    margin : theme.spacing(3),
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
@@ -63,15 +66,11 @@ const useStyles = makeStyles((theme) => ({
       width: 'auto',
     },
   },
+
   searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    background : green[200]
   },
+
   inputRoot: {
     color: 'inherit',
   },
@@ -118,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export function Header({ loginUser, removeCookie, cartList, setSearch ,search}) {
+export function Header({ loginUser, removeCookie, cartList , setSearchData}) {
 
   const classes = useStyles();
 
@@ -126,6 +125,8 @@ export function Header({ loginUser, removeCookie, cartList, setSearch ,search}) 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [cartAnchorEl, setCartAnchorEl] = React.useState(null);
 
+  const [search, setSearch] = React.useState('');
+  
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -166,8 +167,7 @@ export function Header({ loginUser, removeCookie, cartList, setSearch ,search}) 
 
   const handleSearch = (e) => {
     e.preventDefault()
-    setSearch(e.target.value)
-
+    setSearchData(search)
   }
 
   const menuId = 'primary-search-account-menu';
@@ -351,24 +351,26 @@ export function Header({ loginUser, removeCookie, cartList, setSearch ,search}) 
 
           <div className={classes.search}>
 
-            <div className={classes.searchIcon}>
-              <Search />
-            </div>
+
+          <IconButton onClick = {() => setSearch('') } >
+            <CancelOutlined />
+          </IconButton>
 
             <InputBase
-              placeholder="Search…"
+              placeholder="Search Product…"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-              onChange={handleSearch}
+              onChange={(e) => { setSearch(e.target.value) ; !e.target.value  && setSearchData('');} }
               value = {search}
             />
 
-<IconButton onClick = {() => setSearch(null)}>
-            <CancelOutlined />
-          </IconButton>
+          
+          <IconButton className={classes.searchIcon} onClick = {handleSearch}>
+              <Search />
+            </IconButton>
 
           </div>
 

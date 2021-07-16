@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 )
 
 
-export const Shop = ({ logginUser, handleCart , search}) => {
+export const Shop = ({ logginUser, handleCart, search }) => {
 
     const classes = useStyles()
 
@@ -51,17 +51,29 @@ export const Shop = ({ logginUser, handleCart , search}) => {
     }, [])
 
     useEffect(() => {
-        console.log(search)
 
         const searchData = []
-        products.map( (product) => {
 
-            if(search === product.product || search in product.description ){
-                searchData.push(product)
+     
+            products.map((product) => {
+
+
+                if (search === product.product) {
+                    searchData.push(product)
+                    // console.log('searchdatta', searchData)
+
+                }
+
+            })
+            if(search){
+                searchData && setProducts(searchData)
             }
-        })
-searchData &&  setProducts(searchData) 
-       
+            else {
+                axios.get('https://react-shopworld.herokuapp.com/product')
+                    .then((result) => setProducts(result.data))
+            }
+    
+
     }, [search])
 
 
@@ -74,12 +86,14 @@ searchData &&  setProducts(searchData)
 
                 <CssBaseline />
 
-                {search && <h3> Search Results are : </h3>}
+                <Typography>
+                    {search !== '' && <h3> Search Results for <b>'{search}'</b> are : </h3>}
+                </Typography>
 
                 {products.map((pro, ind) => {
                     return (
 
-                        <Grid item  key={ind} xs={12} sm={6} md={3} lg={3} xl={2} >
+                        <Grid item key={ind} xs={12} sm={6} md={3} lg={3} xl={2} >
 
                             <Card className={classes.card} variant='outlined'>
                                 <CardContent >

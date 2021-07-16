@@ -25,12 +25,11 @@ import { Footer } from './MyComp/Footer'
 const App = () => {
 
   const [cookies, setCookie, removeCookie] = useCookies(['loginUser'])
-  const [search, setSearch] = React.useState(null);
+  const [search, setSearchData] = React.useState('');
 
 
-
-  // const data =  {username : 'vikash' , email : 'vikashvermacom92@gmail.com'}
-  const userData = cookies.loginUser ? cookies.loginUser : null
+  const data =  {username : 'vikash' , email : 'vikashvermacom92@gmail.com'}
+  const userData = cookies.loginUser ? cookies.loginUser : data
 
 
   const [cartList, setCartList] = useState(
@@ -61,7 +60,7 @@ const App = () => {
 
     <>
       <Router>
-        <Header loginUser={userData} removeCookie={removeCookie} cartList={cartList} setSearch={setSearch} search={search} />
+        <Header loginUser={userData} removeCookie={removeCookie} cartList={cartList}  setSearchData = {setSearchData}/>
 
         <Switch>
 

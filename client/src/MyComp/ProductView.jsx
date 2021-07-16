@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles, Button, Container, Typography, CssBaseline, Grid, Card, CardMedia , CardActions , CardContent , Link } from '@material-ui/core'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const useStyles = makeStyles({
@@ -34,7 +33,6 @@ export const ProductView = (props) => {
 
     const [product, setProduct] = useState({})
     const [qty, setQty] = useState(1)
-    // const price = 1000
     const [totalPrice, setTotalPrice] = useState(0)
 
     useEffect(() => {
@@ -62,7 +60,7 @@ export const ProductView = (props) => {
                     </Container>
                 </div>
 
-                <Container className={cardGrid} maxWidth='md'>
+                <Container className={classes.cardGrid} maxWidth='md'>
 
                     <Grid container spacing={4}>
 
