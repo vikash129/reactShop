@@ -54,25 +54,25 @@ export const Shop = ({ logginUser, handleCart, search }) => {
 
         const searchData = []
 
-     
-            products.map((product) => {
+
+        products.map((product) => {
 
 
-                if (search === product.product) {
-                    searchData.push(product)
-                    // console.log('searchdatta', searchData)
+            if (search === product.product) {
+                searchData.push(product)
+                // console.log('searchdatta', searchData)
 
-                }
-
-            })
-            if(search){
-                searchData && setProducts(searchData)
             }
-            else {
-                axios.get('https://react-shopworld.herokuapp.com/product')
-                    .then((result) => setProducts(result.data))
-            }
-    
+
+        })
+        if (search) {
+            searchData && setProducts(searchData)
+        }
+        else {
+            axios.get('https://react-shopworld.herokuapp.com/product')
+                .then((result) => setProducts(result.data))
+        }
+
 
     }, [search])
 
@@ -82,18 +82,27 @@ export const Shop = ({ logginUser, handleCart, search }) => {
         <div className={classes.root}>
             <h1 className='text-center'>Ecomm Products</h1>
 
-            <Grid container spacing={2} justify='center'  >
+            <Grid container spacing={2} justify='flex-start'  >
 
                 <CssBaseline />
 
                 <Typography>
-                    {search !== '' && <h3> Search Results for <b>'{search}'</b> are : </h3>}
+                    {search !== '' && 
+
+                    (<div className = 'ml-3'>
+                    <h3 className = 'text-primary'> Search Results for :  <b>'{search}'</b> are  {'=>'} </h3> <br/> 
+                     {products.length 
+                     ? <h2 className = 'text-success '> {products.length}  Result Found </h2>  
+                     : <h4 className = 'text-danger'> No result found . Try with another keyword</h4>} 
+                    </div>
+                    )
+                    }
                 </Typography>
 
                 {products.map((pro, ind) => {
                     return (
 
-                        <Grid item key={ind} xs={12} sm={6} md={3} lg={3} xl={2} >
+                        <Grid item key={ind} xs={12} sm={6} md={4} lg={3} xl={2} >
 
                             <Card className={classes.card} variant='outlined'>
                                 <CardContent >

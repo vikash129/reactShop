@@ -4,13 +4,23 @@ import { loadStripe } from '@stripe/stripe-js'
 
 import axios from 'axios'
 
-import { Card, CardContent, Button, CssBaseline } from '@material-ui/core';
+import { Card, CardContent, Button, CssBaseline , makeStyles } from '@material-ui/core';
 
 const stripePromise = loadStripe(
     'pk_test_51J5EHJSEzMLO0wLKuoQkQvHZDW5XE5xwQiSXP61XSBMfzmHNvLDnf9iU0Ba68wuh6nAldPxtld3ORd1P07BDzDsq00ndvDCXLX'
 )
 
+const useStyles = makeStyles((theme)=> ({
+    checkOutForm : {
+        padding : theme.spacing(4 , 4 , 4) , 
+        margin : theme.spacing(2, 2, 2),
+        backgroundColor : 'c4f0ff'
+    }
+})
+)
+
 const Form = (props ) => {
+    const classes = useStyles()
 
     const stripe = useStripe()
     const elements = useElements()
@@ -20,10 +30,11 @@ const Form = (props ) => {
     const [isProcessing, setIsProcessing] = useState(false)
     const [checkOutError, setCheckOutError] = useState('')
 
+    
 
     //styling
     const CardElementOpts = {
-
+      
         style: {
             base: {
                 iconColor : '#c4f0ff',
@@ -66,8 +77,6 @@ const Form = (props ) => {
         setIsProcessing(true)
 
         const billingDetails = {
-            // name: 'vikash',
-            // email: 'vikashvermacom92@gmail.com'
             name: props.loginUser.username,
             email:props.loginUser.email
         }
@@ -78,7 +87,7 @@ const Form = (props ) => {
 
         try {
             //post request
-            const { data: clientSecret } = await axios.post('http://localhost:4000/payment', {
+            const { data: clientSecret } = await axios.post('https://react-shopworld.herokuapp.com/payment', {
                 amount
             })
             // pi_1J6zmRSEzMLO0wLKK6nk2Z1r_secret_B78GDCYa04NwUG7YdDwFLLq3d
@@ -108,7 +117,7 @@ const Form = (props ) => {
                 return
             }
 
-            alert('misson succccsxxxfull')
+            alert('payment transfered succccsxxxfull !! with clientSecret ' + clientSecret)
 
         }
 
@@ -122,8 +131,8 @@ const Form = (props ) => {
     return (
         <form onSubmit={handleSubmit}>
             <CssBaseline />
-            <h1>check out 0age</h1>
-            <Card>
+            <Card className = {classes.checkOutForm}>
+            <h1>check out Product</h1>
 
                 <CardContent>
                     <CardElement

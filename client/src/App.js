@@ -29,7 +29,7 @@ const App = () => {
 
 
   const data =  {username : 'vikash' , email : 'vikashvermacom92@gmail.com'}
-  const userData = cookies.loginUser ? cookies.loginUser : data
+  const userData = cookies.loginUser ? cookies.loginUser :null
 
 
   const [cartList, setCartList] = useState(

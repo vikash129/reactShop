@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     backgroundColor: blue[200],
     color: 'black',
-    width: '100vw',
+    width: '110vw',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -164,11 +164,13 @@ export function Header({ loginUser, removeCookie, cartList , setSearchData}) {
     window.location.href = '/'
 
   }
-
-  const handleSearch = (e) => {
+  const handleChange  = (e)=>{
     e.preventDefault()
-    setSearchData(search)
+    e.target.value ? setSearch(e.target.value) :  setSearchData(null)
+
   }
+
+
 
   const menuId = 'primary-search-account-menu';
 
@@ -352,7 +354,7 @@ export function Header({ loginUser, removeCookie, cartList , setSearchData}) {
           <div className={classes.search}>
 
 
-          <IconButton onClick = {() => setSearch('') } >
+          <IconButton onClick = {() => {setSearch('')   ; setSearchData(null)} } >
             <CancelOutlined />
           </IconButton>
 
@@ -363,12 +365,12 @@ export function Header({ loginUser, removeCookie, cartList , setSearchData}) {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-              onChange={(e) => { setSearch(e.target.value) ; !e.target.value  && setSearchData('');} }
+              onChange={ handleChange }
               value = {search}
             />
 
           
-          <IconButton className={classes.searchIcon} onClick = {handleSearch}>
+          <IconButton className={classes.searchIcon} onClick = {() => {setSearchData(search)}}>
               <Search />
             </IconButton>
 
