@@ -1,1 +1,1 @@
-Visit at : react-eshopworld.netlify.com
+https://react-eshopworld.netlify.com
